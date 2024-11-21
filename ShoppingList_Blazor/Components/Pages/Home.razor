@@ -47,7 +47,7 @@
             MaxWidth = MaxWidth.Small
         };
 
-        var result = await DialogService.Show<Pages.AddShoppingItemDialog>("string.Empty", new DialogParameters(), options).Result;
+        var result = await DialogService.Show<Pages.AddShoppingItemDialog>(string.Empty, new DialogParameters(), options).Result;
         if (result?.Data is Models.ShoppingItem newItem)
         {
             Items.Add(newItem);
