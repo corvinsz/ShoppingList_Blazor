@@ -10,26 +10,25 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField Value="@Server.Name" Label="Server Name" ReadOnly="true" />
+        <MudTextField T="string" @bind-Text="Description" Label="Description" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Error" OnClick="DeleteServer">Delete Server</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Confirm">OK</MudButton>
     </DialogActions>
 </MudDialog>
 @code {
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; }
 
-    [Parameter]
-    public Server Server { get; set; } = new Server();
+    public string Description { get; set; }
 
     private void Cancel() => MudDialog.Cancel();
 
-    private void DeleteServer()
+    private void Confirm()
     {
-        //In a real world scenario this bool would probably be a service to delete the item from api/database
-        Snackbar.Add("Server Deleted", Severity.Success);
-        MudDialog.Close(DialogResult.Ok(Server.Id));
+        Models.ShoppingItem shoppingItem = new(Guid.NewGuid(), Description);
+        MudDialog.Close(DialogResult.Ok(shoppingItem));
+        Snackbar.Add("Item has been added", Severity.Success);
     }
 }

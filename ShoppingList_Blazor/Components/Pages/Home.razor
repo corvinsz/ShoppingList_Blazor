@@ -12,19 +12,17 @@
         <MudListItem>
             <MudStack Row="true">
                 <MudCheckBox @bind-Value="item.IsChecked"
-                             Label="@item.Description"
-                             Color="Color.Primary"></MudCheckBox>
+                Label="@item.Description"
+                Color="Color.Primary"></MudCheckBox>
             </MudStack>
         </MudListItem>
     }
 
 </MudList>
 
-<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" @onclick="AddShoppingItem" />
+<MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" @onclick="AddShoppingItem"/>
 
 @code {
-    
-
     public List<ShoppingItem> Items { get; set; }
 
     protected override void OnInitialized()
@@ -41,10 +39,18 @@
         ];
     }
 
-    private Task AddShoppingItem()
+    private async Task AddShoppingItem()
     {
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var options = new DialogOptions
+        {
+            CloseButton = true,
+            MaxWidth = MaxWidth.Small
+        };
 
-        return DialogService.ShowAsync<DialogUsageExample_Dialog>("Simple Dialog", options);
+        var result = await DialogService.Show<Pages.AddShoppingItemDialog>("string.Empty", new DialogParameters(), options).Result;
+        if (result?.Data is Models.ShoppingItem newItem)
+        {
+            Items.Add(newItem);
+        }
     }
 }
