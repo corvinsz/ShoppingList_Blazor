@@ -11,11 +11,11 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <MudTextField T="string" @bind-Text="Description" Label="Description" />
+        <MudTextField T="string" @bind-Text="Description" Immediate="true" Label="Description" Variant="Variant.Filled" />
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Confirm">OK</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Confirm" Disabled="string.IsNullOrEmpty(Description)">OK</MudButton>
     </DialogActions>
 </MudDialog>
 @code {
