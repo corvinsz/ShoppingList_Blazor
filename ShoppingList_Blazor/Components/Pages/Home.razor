@@ -5,6 +5,7 @@
 @using ShoppingList_Blazor.Models;
 
 @inject IDialogService DialogService
+@inject ShoppingListDbContext DbContext
 
 <MudList T="ShoppingItem">
     @foreach(var item in Items)
@@ -12,18 +13,17 @@
         <MudListItem>
             <MudStack Row="true">
                 <MudCheckBox @bind-Value="item.IsChecked"
-                Label="@item.Description"
-                Color="Color.Primary"></MudCheckBox>
+                             Label="@item.Description"
+                             Color="Color.Primary"></MudCheckBox>
             </MudStack>
         </MudListItem>
     }
-
 </MudList>
 
 <MudFab Color="Color.Primary"
-        StartIcon="@Icons.Material.Filled.Add"
-        @onclick="AddShoppingItem"
-        Style="position: fixed; bottom: 16px; right: 16px;"/>
+StartIcon="@Icons.Material.Filled.Add"
+@onclick="AddShoppingItem"
+Style="position: fixed; bottom: 16px; right: 16px;"/>
 
 @code {
     public List<ShoppingItem> Items { get; set; }
@@ -31,15 +31,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-
-        Items = 
-        [
-            new ShoppingItem(Guid.NewGuid(), "Rice"),
-            new ShoppingItem(Guid.NewGuid(), "Noodles"),
-            new ShoppingItem(Guid.NewGuid(), "Potoatoes"),
-            new ShoppingItem(Guid.NewGuid(), "Water"),
-            new ShoppingItem(Guid.NewGuid(), "Water")
-        ];
+        Items = DbContext.ShoppingItems.ToList();
     }
 
     private async Task AddShoppingItem()

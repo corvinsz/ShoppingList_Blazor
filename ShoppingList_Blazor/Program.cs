@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using ShoppingList_Blazor;
 using ShoppingList_Blazor.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,10 @@ builder.Services.AddMudServices();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Add DbContext with SQLite
+builder.Services.AddDbContext<ShoppingListDbContext>(options =>
+    options.UseSqlite("Data Source=shoppinglist.db"));
 
 var app = builder.Build();
 

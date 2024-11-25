@@ -1,6 +1,7 @@
 ﻿@using ShoppingList_Blazor.Models;
 
 @inject ISnackbar Snackbar
+@inject ShoppingListDbContext DbContext
 
 <MudDialog DefaultFocus="DefaultFocus.FirstChild">
     <TitleContent>
@@ -25,9 +26,11 @@
 
     private void Cancel() => MudDialog.Cancel();
 
-    private void Confirm()
+    private async Task Confirm()
     {
         Models.ShoppingItem shoppingItem = new(Guid.NewGuid(), Description);
+        DbContext.ShoppingItems.Add(shoppingItem);
+        await DbContext.SaveChangesAsync();
         MudDialog.Close(DialogResult.Ok(shoppingItem));
         Snackbar.Add("Item has been added", Severity.Success);
     }
